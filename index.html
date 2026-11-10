@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>پنل گیمینگ آمریکا 🇺🇸 | HAD Pro</title>
+<style>
+:root{--accent:#8b5cf6;--accent2:#ec4899;--card:rgba(12,18,34,0.95);--text:#e2e8f0;--muted:#94a3b8;--border:#8b5cf655}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Tahoma,"Segoe UI",sans-serif;background:linear-gradient(145deg,#030712,#0f172a);color:var(--text);min-height:100vh;line-height:1.65;padding:14px}
+.wrap{max-width:780px;margin:0 auto}
+header{text-align:center;padding:18px;background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:12px}
+header h1{font-size:1.3rem;background:linear-gradient(90deg,var(--accent),#c084fc,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.badge{display:inline-block;margin-top:8px;padding:4px 12px;border:1px solid var(--accent);border-radius:999px;font-size:0.75rem;color:var(--accent)}
+.nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.nav button{padding:10px 16px;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:12px;cursor:pointer;font-weight:700;font-size:0.88rem;font-family:inherit}
+.nav button.active,.nav button:hover{background:linear-gradient(135deg,#8b5cf633,#ec489928);border-color:var(--accent)}
+.tab{display:none}.tab.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.card h2{font-size:1.05rem;color:var(--accent);margin-bottom:10px}
+label{display:block;font-size:0.82rem;color:var(--muted);margin:8px 0 4px}
+input,textarea{width:100%;padding:10px;background:#030712;border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:0.95rem}
+textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;text-align:left}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+@media(max-width:600px){.row{grid-template-columns:1fr}}
+.btn{padding:11px 14px;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:0.86rem;margin:3px;display:inline-flex;align-items:center;gap:5px}
+.btn:disabled{opacity:0.45;cursor:not-allowed}
+.btn-p{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.btn-o{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-d{background:rgba(239,68,68,0.15);border:1px solid #ef4444;color:#fca5a5}
+.btn-s{background:rgba(34,197,94,0.15);border:1px solid #22c55e;color:#86efac}
+.btn-w{background:rgba(245,158,11,0.15);border:1px solid #f59e0b;color:#fcd34d}
+.btn-g{background:linear-gradient(135deg,#3b82f6,#10b981);color:#fff}
+.cfg{background:rgba(3,7,18,0.8);border-radius:12px;padding:12px;margin:10px 0;border:1px solid rgba(255,255,255,0.08)}
+.cfg strong{color:var(--accent)}
+.meta{font-size:0.84rem;color:var(--muted);line-height:1.8}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:#030712;border:1px solid var(--accent);padding:12px 18px;border-radius:12px;z-index:99;opacity:0;transition:0.3s;font-weight:600;max-width:90%;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.quota{height:8px;border-radius:999px;background:#0f172a;overflow:hidden;margin-top:6px;border:1px solid rgba(255,255,255,0.08)}
+.quota>div{height:100%;border-radius:999px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🎮 پنل گیمینگ HAD | آمریکا 🇺🇸</h1>
+    <p style="color:var(--muted);margin-top:6px;font-size:0.9rem">همراه اول (MCI) | حجم کل پنل: ۱,۰۰۰ گیگابایت</p>
+    <span class="badge">مخصوص گیمینگ اختصاصی با پینگ عالی</span>
+  </header>
+
+  <div class="nav">
+    <button type="button" class="active" data-tab="dash">📊 داشبورد</button>
+    <button type="button" data-tab="create">➕ ساخت کانفیگ</button>
+    <button type="button" data-tab="configs">📂 کانفیگ‌ها</button>
+    <button type="button" data-tab="sub">🔗 لینک ساب</button>
+  </div>
+
+  <div id="tab-dash" class="tab active">
+    <div class="card">
+      <h2>📊 وضعیت پنل</h2>
+      <div class="meta" id="statusMeta">...</div>
+      <div class="quota"><div id="quotaFill" style="width:0%"></div></div>
+      <div id="dashList" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <div id="tab-create" class="tab">
+    <div class="card">
+      <h2>➕ ساخت کانفیگ جدید گیمینگ</h2>
+      <div class="row">
+        <div><label>روز اعتبار</label><input type="number" id="cfgDays" min="1" max="365" value="30"/></div>
+        <div><label>کاربر</label><input type="number" id="cfgUsers" min="1" max="50" value="1"/></div>
+        <div><label>حجم (گیگ)</label><input type="number" id="cfgGB" min="1" max="1000" value="50"/></div>
+      </div>
+      <label>نام کانفیگ (اختیاری)</label>
+      <input type="text" id="cfgName" placeholder="HAD-Game-USA"/>
+      <div style="margin-top:12px"><button type="button" class="btn btn-p" id="btnCreate">✨ ساخت و دانلود کانفیگ</button></div>
+    </div>
+  </div>
+
+  <div id="tab-configs" class="tab">
+    <div class="card">
+      <h2>📂 کانفیگ‌های ساخته‌شده</h2>
+      <div id="cfgList"></div>
+    </div>
+  </div>
+
+  <div id="tab-sub" class="tab">
+    <div class="card">
+      <h2>🔗 لینک اشتراک (Subscription)</h2>
+      <p class="meta">از این بخش برای دریافت لینک ساب اختصاصی استفاده کنید.</p>
+      <label>لینک ساب HTTPS</label>
+      <input type="text" id="subHttps" readonly placeholder="هنوز ساخته نشده" style="direction:ltr;text-align:left;color:#c084fc;font-family:monospace;font-size:0.85rem"/>
+      <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px">
+        <button type="button" class="btn btn-p" id="btnSubLatest">🚀 لینک آخرین کانفیگ</button>
+        <button type="button" class="btn btn-g" id="btnSubAll">📦 لینک همه فعال‌ها</button>
+        <button type="button" class="btn btn-o" id="btnCopySub">📋 کپی لینک</button>
+        <button type="button" class="btn btn-o" id="btnOpenSub">🌐 باز کردن</button>
+      </div>
+      <div id="subCfgList" style="margin-top:14px"></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var PANEL = {"totalGB": 1000, "location": "آمریکا 🇺🇸", "name": "HAD"};
+  
+  // Exact values mapped from user's HAD config
+  var SOURCE_PRIVATE_KEY = "lqUD4lKBJo2GvJ+AORSmfwibisO4xERvLLEGjjOUHfk=";
+  var SOURCE_ADDRESS = "10.179.217.218/32";
+  var SOURCE_DNS = "164.138.130.168, 8.8.8.8";
+  var SOURCE_MTU = 1280;
+  var SERVER_PUBLIC_KEY = "VEyLge/DjFdY2nohm6JiGIkJT7bZn7gE2xsbjPJlcCM=";
+  var PRESHARED_KEY = "4PxaYqPgyb4hZne8PjC02Udc/IslC8jD2/yidKd1kuY=";
+  var ENDPOINT = "192.103.189.96:51820";
+  var ALLOWED_IPS = "252.248.84.197/32, 44.137.70.116/32, 228.178.237.118/32, 27.89.229.229/32, 95.243.16.40/32, 45.70.50.147/32, 124.27.242.239/32, 92.206.151.64/32, 89.67.236.208/32, 92.31.44.150/32";
+  var PERSISTENT_KEEPALIVE = 1;
+
+  var STORAGE_KEY = "had_usa_store_1000gb";
+  var CONFIGS = [];
+  var CONSUMED = 0;
+  var LAST_SUB_URL = "";
+
+  function toast(msg) {
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(function(){ t.classList.remove("show"); }, 3000);
+  }
+
+  function switchTab(id) {
+    document.querySelectorAll(".nav button").forEach(function(b){
+      b.classList.toggle("active", b.getAttribute("data-tab") === id);
+    });
+    document.querySelectorAll(".tab").forEach(function(t){ t.classList.remove("active"); });
+    var el = document.getElementById("tab-" + id);
+    if (el) el.classList.add("active");
+    if (id === "dash") renderDash();
+    if (id === "configs") renderList();
+    if (id === "sub") renderSub();
+  }
+
+  document.querySelectorAll(".nav button").forEach(function(btn){
+    btn.addEventListener("click", function(){ switchTab(btn.getAttribute("data-tab")); });
+  });
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        var o = JSON.parse(raw);
+        CONFIGS = o.configs || [];
+        CONSUMED = Number(o.consumedGB) || 0;
+        LAST_SUB_URL = o.httpsSubUrl || "";
+      } else {
+        CONFIGS = [];
+        CONSUMED = 0;
+        save();
+      }
+    } catch (e) { CONFIGS = []; CONSUMED = 0; }
+    CONFIGS.forEach(function(c){
+      if (typeof c.inSub === "undefined") c.inSub = true;
+      if (typeof c.usedGB === "undefined") c.usedGB = 0;
+    });
+  }
+
+  function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ configs: CONFIGS, consumedGB: CONSUMED, httpsSubUrl: LAST_SUB_URL }));
+  }
+
+  function remainingDays(cfg) {
+    if (!cfg) return 0;
+    var endMs = null;
+    if (cfg.expiresAt) endMs = new Date(cfg.expiresAt).getTime();
+    else if (cfg.createdAt && cfg.days) endMs = new Date(cfg.createdAt).getTime() + (Number(cfg.days)||0)*86400000;
+    else return Number(cfg.days)||0;
+    var left = Math.ceil((endMs - Date.now()) / 86400000);
+    return left > 0 ? left : 0;
+  }
+
+  function isActive(cfg) {
+    if (!cfg || cfg.inSub === false) return false;
+    if (remainingDays(cfg) <= 0) return false;
+    return Math.max(0, (Number(cfg.gb)||0) - (Number(cfg.usedGB)||0)) > 0;
+  }
+
+  function buildConf(name, days, gb) {
+    var safe = String(name).replace(/[^\x20-\x7E]/g,"_").slice(0,40);
+    var conf = [
+      "# Name: " + safe,
+      "# Location: USA",
+      "# Provider: Hamrah-e Aval",
+      "# Volume: " + gb + " GB | Duration: " + days + " Days",
+      "",
+      "[Interface]",
+      "PrivateKey = " + SOURCE_PRIVATE_KEY,
+      "Address = " + SOURCE_ADDRESS,
+      "DNS = " + SOURCE_DNS,
+      "MTU = " + SOURCE_MTU,
+      "",
+      "[Peer]",
+      "PublicKey = " + SERVER_PUBLIC_KEY,
+      "PresharedKey = " + PRESHARED_KEY,
+      "AllowedIPs = " + ALLOWED_IPS,
+      "Endpoint = " + ENDPOINT,
+      "PersistentKeepalive = " + PERSISTENT_KEEPALIVE,
+      ""
+    ].join("\n");
+    return { conf: conf };
+  }
+
+  function downloadText(text, filename) {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([text], { type: "application/octet-stream" }));
+    a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText)
+      navigator.clipboard.writeText(text).then(function(){ toast("✅ کپی شد"); }).catch(function(){ fallback(text); });
+    else fallback(text);
+  }
+
+  function fallback(text) {
+    var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); toast("✅ کپی شد"); } catch(e) { toast("❌ کپی نشد"); }
+    document.body.removeChild(ta);
+  }
+
+  function updateStatus() {
+    var total = PANEL.totalGB;
+    var used = Math.max(0, Number(CONSUMED)||0);
+    var rem = Math.max(0, total - used);
+    var act = CONFIGS.filter(isActive).length;
+    document.getElementById("statusMeta").innerHTML =
+      "لوکیشن: <strong>" + PANEL.location + "</strong> | اپراتور: <strong>همراه اول</strong><br>" +
+      "حجم مصرفی کل: <strong style='color:#c084fc'>" + used.toFixed(1) + "</strong> / " + total + " GB — باقی‌مانده: <strong>" + rem.toFixed(1) + "</strong> GB<br>" +
+      "کانفیگ‌های فعال: <strong>" + act + "</strong> / " + CONFIGS.length;
+    var pct = Math.min(100, Math.round((used/total)*100));
+    var fill = document.getElementById("quotaFill");
+    fill.style.width = pct + "%";
+    fill.style.background = pct >= 95 ? "#ef4444" : pct >= 70 ? "#f59e0b" : "#8b5cf6";
+    var btn = document.getElementById("btnCreate");
+    if (btn) btn.disabled = rem <= 0;
+  }
+
+  function cfgButtons(cfg, i, on) {
+    return '<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">' +
+      '<button type="button" class="btn ' + (cfg.inSub!==false?"btn-d":"btn-s") + '" data-a="toggle" data-i="' + i + '">' + (cfg.inSub!==false?"🔴 غیرفعال":"🟢 فعال") + '</button>' +
+      '<button type="button" class="btn btn-p" data-a="dl" data-i="' + i + '"' + (on?"":" disabled") + '>⬇️ دانلود</button>' +
+      '<button type="button" class="btn btn-o" data-a="copy" data-i="' + i + '"' + (on?"":" disabled") + '>📋 کپی</button>' +
+      '<button type="button" class="btn btn-o" data-a="qr" data-i="' + i + '"' + (on?"":" disabled") + '>📱 QR</button>' +
+      '<button type="button" class="btn btn-g" data-a="sub" data-i="' + i + '">🔗 ساب</button>' +
+      '<button type="button" class="btn btn-d" data-a="del" data-i="' + i + '">🗑️</button></div>';
+  }
+
+  function renderList() {
+    updateStatus();
+    var list = document.getElementById("cfgList");
+    if (!CONFIGS.length) { list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:16px">هنوز کانفیگی ساخته نشده است</p>'; return; }
+    var html = "";
+    CONFIGS.forEach(function(cfg, i) {
+      var on = isActive(cfg);
+      var left = remainingDays(cfg);
+      var st = on ? "فعال" : (cfg.inSub===false?"غیرفعال":(left<=0?"منقضی":"حجم تمام"));
+      html += '<div class="cfg" style="opacity:' + (on?1:0.55) + '"><strong>🎮 ' + (cfg.name||("#"+(i+1))) + '</strong> <span style="font-size:0.75rem;color:' + (on?"#c084fc":"#fca5a5") + '">● ' + st + '</span><br>' +
+        '<span style="font-size:0.82rem;color:var(--muted)">' + (cfg.days||0) + ' روز • مانده: ' + left + ' روز • ' + (cfg.gb||0) + ' گیگ</span>' + cfgButtons(cfg,i,on) + '</div>';
+    });
+    list.innerHTML = html;
+  }
+
+  function renderDash() {
+    updateStatus();
+    var box = document.getElementById("dashList");
+    if (!CONFIGS.length) { box.innerHTML = '<p style="color:var(--muted)">کانفیگی موجود نیست</p>'; return; }
+    var html = "";
+    CONFIGS.forEach(function(cfg, i) {
+      var on = isActive(cfg);
+      html += '<div class="cfg"><strong>' + (cfg.name||("#"+(i+1))) + '</strong> — ' + (on?"فعال":"غیرفعال") + ' | ' + (cfg.gb||0) + 'GB<br>' +
+        '<button type="button" class="btn btn-g" data-a="sub" data-i="' + i + '" style="margin-top:6px">🔗 لینک ساب</button></div>';
+    });
+    box.innerHTML = html;
+  }
+
+  function renderSub() {
+    updateStatus();
+    var el = document.getElementById("subHttps");
+    if (el) { el.value = LAST_SUB_URL || ""; el.placeholder = LAST_SUB_URL ? "" : "هنوز ساخته نشده"; }
+    var box = document.getElementById("subCfgList");
+    if (!CONFIGS.length) { box.innerHTML = '<p style="color:var(--muted)">کانفیگی نیست</p>'; return; }
+    var html = '<strong style="color:var(--accent);font-size:0.9rem">لینک ساب کانفیگ‌ها:</strong>';
+    CONFIGS.forEach(function(cfg, i) {
+      var on = isActive(cfg);
+      html += '<div class="cfg"><span>' + (cfg.name||("#"+(i+1))) + '</span> <button type="button" class="btn btn-g" data-a="sub" data-i="' + i + '">🔗 ساب</button>' +
+        (cfg.httpsSubUrl ? '<div style="margin-top:4px;font-size:0.7rem;color:#c084fc;word-break:break-all;font-family:monospace">' + cfg.httpsSubUrl + '</div>' : '') + '</div>';
+    });
+    box.innerHTML = html;
+  }
+
+  function buildSubPageHtml(cfg) {
+    var on = isActive(cfg);
+    var nameStr = String(cfg.name || "HAD-USA");
+    var confData = on ? (cfg.confText || "") : "";
+    var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=" + encodeURIComponent(confData ? confData.slice(0,1200) : "INACTIVE");
+    return '<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"/><title>ساب | ' + nameStr + '</title></head>' +
+      '<body style="font-family:Tahoma;background:#030712;color:#e2e8f0;padding:16px;max-width:425px;margin:0 auto">' +
+      '<h2 style="color:#8b5cf6;text-align:center">🎮 آمریکا - HAD Pro</h2>' +
+      '<div style="background:#0f172a;border:1px solid #8b5cf6;padding:12px;border-radius:12px;margin:10px 0">' +
+      '<p><b>نام:</b> ' + nameStr + '</p><p><b>حجم:</b> ' + (cfg.gb||0) + ' GB</p><p><b>وضعیت:</b> ' + (on?"فعال":"غیرفعال") + '</p></div>' +
+      '<pre style="background:#000;color:#c084fc;padding:10px;border-radius:8px;font-size:11px;direction:ltr;text-align:left;overflow:auto;max-height:200px">' + (confData||"غیرفعال").replace(/</g,"&lt;") + '</pre>' +
+      (on?'<div style="text-align:center;margin-top:12px"><img src="' + qrUrl + '" width="200" height="200"/></div>':'') +
+      '</body></html>';
+  }
+
+  async function uploadHtml(bodyHtml) {
+    var url = null;
+    try {
+      var res = await fetch("https://api.pastes.dev/post", { method:"POST", headers:{"Content-Type":"text/html; charset=utf-8"}, body: bodyHtml });
+      if (res.ok) { var data = await res.json(); if (data && data.key) url = "https://api.pastes.dev/" + data.key; }
+    } catch(e) {}
+    if (!url) {
+      try {
+        var fd = new FormData();
+        fd.append("file", new Blob([bodyHtml],{type:"text/html;charset=utf-8"}), "sub.html");
+        var res2 = await fetch("https://0x0.st", { method:"POST", body: fd });
+        if (res2.ok) { var t = (await res2.text()).trim(); if (t.indexOf("http")===0) url = t; }
+      } catch(e) {}
+    }
+    return url;
+  }
+
+  async function createSubFor(i) {
+    var cfg = CONFIGS[i];
+    if (!cfg) return;
+    toast("⏳ در حال ساخت لینک ساب...");
+    var body = buildSubPageHtml(cfg);
+    var url = await uploadHtml(body);
+    if (url) {
+      cfg.httpsSubUrl = url;
+      LAST_SUB_URL = url;
+      save();
+      var el = document.getElementById("subHttps");
+      if (el) el.value = url;
+      copyText(url);
+      toast("✅ لینک ساب ساخته و کپی شد");
+      renderSub(); renderDash(); renderList();
+    } else {
+      window.open(URL.createObjectURL(new Blob([body],{type:"text/html;charset=utf-8"})), "_blank");
+      toast("⚠ صفحه محلی باز شد");
+    }
+  }
+
+  async function createSubAll() {
+    var list = CONFIGS.filter(isActive);
+    if (!list.length) { toast("کانفیگ فعالی نیست"); return; }
+    var body = '<html dir="rtl"><body style="font-family:Tahoma;background:#030712;color:#fff;padding:16px"><h2>ساب کلی HAD</h2>' +
+      list.map(function(c){ return '<pre style="background:#000;color:#c084fc;padding:10px">' + (c.confText||"") + '</pre>'; }).join("") + '</body></html>';
+    toast("⏳ ساخت لینک ساب کلی...");
+    var url = await uploadHtml(body);
+    if (url) { LAST_SUB_URL = url; save(); document.getElementById("subHttps").value = url; copyText(url); toast("✅ کپی شد"); }
+    else { window.open(URL.createObjectURL(new Blob([body],{type:"text/html;charset=utf-8"})), "_blank"); }
+  }
+
+  function createConfig() {
+    var total = PANEL.totalGB;
+    var rem = Math.max(0, total - (Number(CONSUMED)||0));
+    if (rem <= 0) { toast("⛔ حجم پنل تمام شده است"); return; }
+    var days = parseInt(document.getElementById("cfgDays").value,10)||30;
+    var gb = parseInt(document.getElementById("cfgGB").value,10)||50;
+    if (gb > rem) { gb = rem; }
+    var name = (document.getElementById("cfgName").value||"").trim();
+    if (!name) name = "HAD-USA-" + days + "d-" + gb + "GB";
+    var built = buildConf(name, days, gb);
+    CONFIGS.unshift({
+      id: "cfg_" + Date.now().toString(36), name: name, days: days, gb: gb, usedGB: 0,
+      confText: built.conf, createdAt: new Date().toISOString(), inSub: true, httpsSubUrl: null
+    });
+    CONSUMED = (Number(CONSUMED)||0) + gb;
+    LAST_SUB_URL = "";
+    save();
+    renderAll();
+    downloadText(built.conf, name.replace(/[^a-zA-Z0-9]/g, "_") + ".conf");
+    toast("✅ کانفیگ ساخته و دانلود شد");
+    document.getElementById("cfgName").value = "";
+    switchTab("configs");
+  }
+
+  function handleAction(a, i) {
+    var cfg = CONFIGS[i];
+    if (!cfg) return;
+    if (a === "dl") {
+      if (!isActive(cfg)) { toast("⛔ کانفیگ غیرفعال است"); return; }
+      downloadText(cfg.confText, (cfg.name||"had").replace(/\s+/g,"_") + ".conf");
+    } else if (a === "copy") {
+      if (!isActive(cfg)) { toast("⛔ غیرفعال است"); return; }
+      copyText(cfg.confText||"");
+    } else if (a === "qr") {
+      if (!isActive(cfg)) { toast("⛔ غیرفعال است"); return; }
+      window.open("https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=" + encodeURIComponent((cfg.confText||"").slice(0,1200)), "_blank");
+    } else if (a === "toggle") {
+      cfg.inSub = !(cfg.inSub !== false);
+      cfg.httpsSubUrl = null; LAST_SUB_URL = "";
+      save(); renderAll();
+      toast(cfg.inSub!==false?"✅ فعال شد":"⏸ غیرفعال شد");
+    } else if (a === "del") {
+      if (!confirm("حذف کانفیگ؟")) return;
+      CONFIGS.splice(i,1); LAST_SUB_URL = "";
+      save(); renderAll(); toast("🗑️ حذف شد");
+    } else if (a === "sub") {
+      createSubFor(i);
+    }
+  }
+
+  function renderAll() { renderList(); renderDash(); renderSub(); updateStatus(); }
+
+  document.getElementById("btnCreate").addEventListener("click", function(e){ e.preventDefault(); try{ createConfig(); }catch(err){ toast("خطا: "+err.message); } });
+  document.getElementById("btnSubLatest").addEventListener("click", function(){ if(!CONFIGS.length){toast("کانفیگی نیست");return;} createSubFor(0); });
+  document.getElementById("btnSubAll").addEventListener("click", function(){ createSubAll(); });
+  document.getElementById("btnCopySub").addEventListener("click", function(){
+    var v = document.getElementById("subHttps").value;
+    if (!v || v.indexOf("http")!==0) { toast("⚠ ابتدا لینک بسازید"); return; }
+    copyText(v);
+  });
+  document.getElementById("btnOpenSub").addEventListener("click", function(){
+    var v = document.getElementById("subHttps").value;
+    if (v && v.indexOf("http")===0) window.open(v, "_blank");
+    else if (CONFIGS.length) {
+      var body = buildSubPageHtml(CONFIGS[0]);
+      window.open(URL.createObjectURL(new Blob([body],{type:"text/html;charset=utf-8"})), "_blank");
+    } else toast("کانفیگی نیست");
+  });
+
+  document.body.addEventListener("click", function(e){
+    var btn = e.target.closest("button[data-a]");
+    if (!btn || btn.disabled) return;
+    var a = btn.getAttribute("data-a");
+    var i = parseInt(btn.getAttribute("data-i"), 10);
+    try { handleAction(a, i); } catch(err) { toast("خطا: "+(err.message||err)); }
+  });
+
+  load();
+  renderAll();
+  toast("پنل گیمینگ HAD آمریکا آماده است (حجم کل: ۱,۰۰۰ گیگ)");
+})();
+</script>
+</body>
+</html>
